@@ -15,10 +15,9 @@ pipeline {
                     git branch: 'main',
                         credentialsId: 'github-ssh-key'
                         url: 'git@github.com:bagrat92/jenkins-from-aws.git'
-                    }
                 }
-
             }
+
         }
         stage('Assume Role') {
             steps {
@@ -55,8 +54,9 @@ pipeline {
 
                             aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label Jenkins-${BUILD_ID}
                         '''
+                    }
                 }
-           }
+            }
         }
     }
 }
