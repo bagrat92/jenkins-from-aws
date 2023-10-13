@@ -19,17 +19,17 @@ pipeline {
             }
 
         }
-        stage('Assume Role') {
-            steps {
-                script {
-                    // Assume an AWS IAM role for this pipeline
-                    def assumedRole = awsRoleAssumer(
-                        credentials: 'aws_eb_access',
-                        roleArn: 'arn:aws:iam::908177614064:role/aws_eb_roles_for_jenkins'
-                    )
-                }
-            }
-        }
+        // stage('Assume Role') {
+        //     steps {
+        //         script {
+        //             // Assume an AWS IAM role for this pipeline
+        //             def assumedRole = awsRoleAssumer(
+        //                 credentials: 'aws_eb_access',
+        //                 roleArn: 'arn:aws:iam::908177614064:role/aws_eb_roles_for_jenkins'
+        //             )
+        //         }
+        //     }
+        // }
         stage('Zip Application Code') {
             steps {
                 // Zip your application code
