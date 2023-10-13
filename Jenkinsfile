@@ -39,8 +39,8 @@ pipeline {
         stage('Upload to S3') {
             steps {
                 // Upload the zipped code to an S3 bucket
-                withAWS(region: env.AWS_REGION) {
-                    sh 'aws s3 cp my-app.zip s3://your-s3-bucket/'
+                withAWS(region: env.AWS_REGION, creadentialId: aws_eb_access) {
+                    sh 'aws s3 cp my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/'
                 }
             }
         }
