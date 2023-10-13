@@ -6,7 +6,7 @@ pipeline {
     environment {
         AWS_REGION = 'eu-central-1'  // Set your AWS region
         AWS_ACCOUNT_ID = "908177614064"
-        AWS_EB_ENV_NAME = 'YourEnvironmentName'  // Set your Elastic Beanstalk environment name
+        AWS_EB_ENV_NAME = 'Jenkins-app-env'  // Set your Elastic Beanstalk environment name
     }
     stages {
         stage('Checkout SCM') {
@@ -50,10 +50,10 @@ pipeline {
                 script {
                     withAWS(region: env.AWS_REGION, roleAccount: env.AWS_ACCOUNT_ID) {
                         sh '''
-                            aws elasticbeanstalk create-application-version --application-name YourAppName \
-                            --version-label YourAppVersionLabel --source-bundle S3Bucket=your-bucket-name,S3Key=your-app-archive.zip
+                            aws elasticbeanstalk create-application-version --application-name jenkins-app \
+                            --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=my-app.zip
 
-                            aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label YourAppVersionLabel
+                            aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label Jenkins-${BUILD_ID}
                         '''
                 }
            }
