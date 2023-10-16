@@ -42,7 +42,7 @@ pipeline {
                 withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
                     sh '''
                     ls -lah
-                    aws s3 cp ./my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/
+                    aws s3 cp ./my-app.zip s3://elasticbeanstalk-eu-central-1-908177614064/
                     '''
                 }
             }
