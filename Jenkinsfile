@@ -40,7 +40,10 @@ pipeline {
             steps {
                 // Upload the zipped code to an S3 bucket
                 withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
-                    sh 'aws s3 cp my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/'
+                    sh '''
+                    ls -lah
+                    aws s3 cp ./my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/
+                    '''
                 }
             }
         }
