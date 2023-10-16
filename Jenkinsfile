@@ -6,7 +6,7 @@ pipeline {
     environment {
         AWS_REGION = 'eu-central-1'  // Set your AWS region
         AWS_ACCOUNT_ID = "908177614064"
-        AWS_EB_ENV_NAME = 'Jenkins-app-env'  // Set your Elastic Beanstalk environment name
+        AWS_EB_ENV_NAME = 'Jenapp-env'  // Set your Elastic Beanstalk environment name
     }
     stages {
         stage('Checkout SCM') {
@@ -39,7 +39,7 @@ pipeline {
         stage('Upload to S3') {
             steps {
                 // Upload the zipped code to an S3 bucket
-                withCredentials([usernamePassword(credentialsId: 'aws_eb_access', accessKeyVariable: 'AWS_ACCESS_KEY', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withAWS(credentialsId: "aws_eb_access", region: env.AWS_REGION) {
                     sh 'aws s3 cp my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/'
                 }
             }
@@ -47,9 +47,9 @@ pipeline {
         stage('Deploy to Elastic Beanstalk') {
             steps {
                 script {
-                    withAWS(region: env.AWS_REGION, roleAccount: env.AWS_ACCOUNT_ID) {
+                    withAWS(creadentialsId: region: env.AWS_REGION, roleAccount: env.AWS_ACCOUNT_ID) {
                         sh '''
-                            aws elasticbeanstalk create-application-version --application-name jenkins-app \
+                            aws elasticbeanstalk create-application-version --application-name jenapp \
                             --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=my-app.zip
 
                             aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label Jenkins-${BUILD_ID}
