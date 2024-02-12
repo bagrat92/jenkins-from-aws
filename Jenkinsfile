@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy to Elastic Beanstalk') {
             steps {
                 script {
-                    withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
+                    withAWS(credentials: 'aws_key', region: env.AWS_REGION) {
                         sh '''
                             aws elasticbeanstalk create-application-version --application-name jenkins-test \
                             --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-west-3-908177614064,S3Key=my-app.zip
