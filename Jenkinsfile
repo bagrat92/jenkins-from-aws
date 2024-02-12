@@ -33,7 +33,7 @@ pipeline {
         stage('Zip Application Code') {
             steps {
                 // Zip your application code
-                sh 'zip -r my-app.zip .'
+                sh "zip -r my-app.zip ."
             }
         }
         stage('Upload to S3') {
