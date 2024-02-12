@@ -40,7 +40,7 @@ pipeline {
             steps {
                 // Upload the zipped code to an S3 bucket
                 withCredentials([usernamePassword(credentialsId: 'aws_eb_access', accessKeyVariable: 'AWS_ACCESS_KEY', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'aws s3 cp my-app.zip s3:/elasticbeanstalk-eu-central-1-908177614064/'
+                    sh 'aws s3 cp my-app.zip s3:/elasticbeanstalk-eu-west-3-908177614064/'
                 }
             }
         }
