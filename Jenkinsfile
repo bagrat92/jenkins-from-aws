@@ -36,14 +36,6 @@ pipeline {
                 sh "zip -r web-test-Jenkins-${BUILD_ID}.zip ."
             }
         }
-//         stage('Upload to S3') {
-//             steps {
-//                 // Upload the zipped code to an S3 bucket
-//                 withCredentials([usernamePassword(credentialsId: 'aws_eb_access', accessKeyVariable: 'AWS_ACCESS_KEY', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-//                     sh 'aws s3 cp web-test-Jenkins-${BUILD_ID}.zip s3:/elasticbeanstalk-eu-central-1-908177614064/'
-//                 }
-//             }
-//         }
         stage('Upload to S3') {
             steps {
                 withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
