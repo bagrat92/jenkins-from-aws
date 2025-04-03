@@ -46,9 +46,8 @@ pipeline {
 //         }
         stage('Upload to S3') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws_eb_access', accessKeyVariable: 'AWS_ACCESS_KEY', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
                     sh '''
-                        AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
                         aws s3 cp web-test-Jenkins-${BUILD_ID}.zip s3://elasticbeanstalk-eu-central-1-908177614064/
                     '''
                 }
@@ -57,7 +56,7 @@ pipeline {
         stage('Deploy to Elastic Beanstalk') {
             steps {
                 script {
-                    withAWS(credentials: 'aws_key', region: env.AWS_REGION) {
+                    withAWS(credentials: 'aws_eb_access', region: env.AWS_REGION) {
                         sh '''
                             aws elasticbeanstalk create-application-version --application-name web-test \
                             --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=web-test-Jenkins-${BUILD_ID}.zip
