@@ -30,7 +30,6 @@ pipeline {
                         url: 'git@github.com:bagrat92/jenkins-from-aws.git'
                 }
             }
-
         }
         stage('Zip Application Code') {
             steps {
