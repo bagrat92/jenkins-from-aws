@@ -16,7 +16,6 @@ pipeline {
                     [key: 'TRIGGER_GIT_BRANCH', value: '$.ref'],
             ],
             printContributedVariables: true,
-            printPostContent: printPostContent,
             regexpFilterText: '$COMMIT_MESSAGE',
             regexpFilterExpression: '^Releasing',
             tokenCredentialId: "elastik_beanstalk_github_token"
