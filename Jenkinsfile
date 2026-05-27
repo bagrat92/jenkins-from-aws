@@ -53,7 +53,7 @@ pipeline {
                     withAWS(credentials: 'aws_creds', region: env.AWS_REGION) {
                         sh '''
                             aws elasticbeanstalk create-application-version --application-name web-app \
-                            --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=my-app.zip
+                            --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=web-test-Jenkins-${BUILD_ID}.zip
 
                             aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label Jenkins-${BUILD_ID}
                         '''
