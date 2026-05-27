@@ -26,7 +26,7 @@ pipeline {
             steps { 
                 script {
                     git branch: 'main',
-                        credentialsId: 'github-ssh-key',
+                        credentialsId: 'github_ssh_key',
                         url: 'git@github.com:bagrat92/jenkins-from-aws.git'
                 }
             }
