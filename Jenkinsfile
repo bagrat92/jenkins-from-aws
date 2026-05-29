@@ -6,7 +6,7 @@ pipeline {
     environment {
         AWS_REGION = 'eu-central-1'  // Set your AWS region
         AWS_ACCOUNT_ID = "908177614064"
-        AWS_EB_ENV_NAME = 'Web-app-env'  // Set your Elastic Beanstalk environment name
+        AWS_EB_ENV_NAME = 'Jenkins-test-env'  // Set your Elastic Beanstalk environment name
     }
     triggers {
         GenericTrigger(
@@ -34,7 +34,7 @@ pipeline {
         stage('Zip Application Code') {
             steps {
                 // Zip your application code
-                sh "zip -r web-test-Jenkins-${BUILD_ID}.zip ."
+                sh "zip -r jenkins-test-${BUILD_ID}.zip ."
             }
         }
         stage('Upload to S3') {
@@ -42,7 +42,7 @@ pipeline {
                 // Upload the zipped code to an S3 bucket
                 withAWS(credentials: 'aws_creds', region: env.AWS_REGION) {
                     sh '''
-                        aws s3 cp web-test-Jenkins-${BUILD_ID}.zip s3://elasticbeanstalk-eu-central-1-908177614064/
+                        aws s3 cp jenkins-test-${BUILD_ID}.zip s3://elasticbeanstalk-eu-central-1-908177614064/
                     '''
                 }
             }
@@ -52,8 +52,8 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws_creds', region: env.AWS_REGION) {
                         sh '''
-                            aws elasticbeanstalk create-application-version --application-name web-app \
-                            --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=web-test-Jenkins-${BUILD_ID}.zip
+                            aws elasticbeanstalk create-application-version --application-name jenkins-test \
+                            --version-label Jenkins-${BUILD_ID} --source-bundle S3Bucket=elasticbeanstalk-eu-central-1-908177614064,S3Key=jenkins-test-${BUILD_ID}.zip
 
                             aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENV_NAME --version-label Jenkins-${BUILD_ID}
                         '''
